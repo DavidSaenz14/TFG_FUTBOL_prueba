@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clasificaciones Equipos</title>
+  <style>
+    /* General styles for the page */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #e3f2fd; /* Azul claro */
+      margin: 0;
+      padding: 20px;
+    }
+
+    /* Styles for the clasificacionesEquipos section */
+    h2 {
+      color: #1565c0; /* Azul oscuro */
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 2em;
+    }
+
+   .clasificacionesEquipos-list {
+      display: flex; /* Utiliza Flexbox para organizar los elementos en filas */
+      justify-content: space-between; /* Espacio uniforme entre los elementos */
+      flex-wrap: wrap; /* Permitir que los elementos se envuelvan a la siguiente línea */
+    }
+
+   .clasificacionEquipo-item {
+      background-color: #bbdefb; /* Azul claro */
+      border: 2px solid #1565c0; /* Azul oscuro */
+      border-radius: 10px;
+      margin-bottom: 20px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+      flex: 1 0 30%; /* Ajusta el ancho de cada elemento a 30% del contenedor padre */
+      min-width: 300px; /* Ancho mínimo para dispositivos pequeños */
+    }
+
+   .clasificacionEquipo-item:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+   .clasificacionEquipo-info {
+      text-align: left;
+    }
+
+   .clasificacionEquipo-id {
+      font-size: 1.5em;
+      color: #1565c0; /* Azul oscuro */
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+   .clasificacionEquipo-info p {
+      margin: 8px 0;
+      font-size: 1em;
+    }
+
+   .clasificacionEquipo-info p strong {
+      color: #1976d2; /* Azul más claro */
+    }
+  </style>
+</head>
+<body>
+  <h2>Clasificaciones Equipos</h2>
+  <ul class="clasificacionesEquipos-list">
+    <li *ngFor="let clasificacion of clasificacionesEquipos" class="clasificacionEquipo-item">
+      <div class="clasificacionEquipo-info">
+        <h3 class="clasificacionEquipo-id">ID Equipo: {{ clasificacion.idEquipo }}</h3>
+        <p><strong>Posición:</strong> {{ clasificacion.posicion }}</p>
+        <p><strong>Puntos:</strong> {{ clasificacion.puntos }}</p>
+        <p><strong>Partidos Jugados:</strong> {{ clasificacion.partidosJugados }}</p>
+        <p><strong>Partidos Ganados:</strong> {{ clasificacion.partidosGanados }}</p>
+        <p><strong>Partidos Empatados:</strong> {{ clasificacion.partidosEmpatados }}</p>
+        <p><strong>Partidos Perdidos:</strong> {{ clasificacion.partidosPerdidos }}</p>
+        <p><strong>Goles a Favor:</strong> {{ clasificacion.golesAFavor }}</p>
+        <p><strong>Goles en Contra:</strong> {{ clasificacion.golesEnContra }}</p>
+      </div>
+    </li>
+  </ul>
+</body>
+</html>

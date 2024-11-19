@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Partidos</title>
+  <style>
+    /* General styles for the page */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #e3f2fd; /* Azul claro */
+      margin: 0;
+      padding: 20px;
+    }
+
+    /* Styles for the partidos section */
+    h2 {
+      color: #1565c0; /* Azul oscuro */
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 2em;
+    }
+
+    .partidos-list {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .partido-item {
+      background-color: #bbdefb; /* Azul claro */
+      border: 2px solid #1565c0; /* Azul oscuro */
+      border-radius: 10px;
+      margin-bottom: 20px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .partido-item:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .partido-info {
+      text-align: left;
+    }
+
+    .partido-fecha {
+      font-size: 1.5em;
+      color: #1565c0; /* Azul oscuro */
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .partido-info p {
+      margin: 8px 0;
+      font-size: 1em;
+    }
+
+    .partido-info p strong {
+      color: #1976d2; /* Azul más claro */
+    }
+
+    .form-container {
+      max-width: 400px;
+      margin: 20px auto;
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    .buttons-container {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .btn {
+      background-color: #1565c0;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 8px 16px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+
+    .btn:hover {
+      background-color: #0d47a1;
+    }
+  </style>
+</head>
+<body>
+  <h2>Partidos</h2>
+<ul class="partidos-list">
+  <li *ngFor="let partido of partidos" class="partido-item">
+    <div class="partido-info">
+      <h3 class="partido-fecha">{{ partido.fechaHora }}</h3>
+      <p><strong>Equipo Local:</strong> {{ partido.equipoLocal.nombre }}</p>
+      <p><strong>Equipo Visitante:</strong> {{ partido.equipoVisitante.nombre }}</p>
+      <p><strong>Goles Local:</strong> {{ partido.golesLocal }}</p>
+      <p><strong>Goles Visitante:</strong> {{ partido.golesVisitante }}</p>
+      <p><strong>Estadio:</strong> {{ partido.estadio.nombre }}</p>
+      <p><strong>Árbitro Principal:</strong> {{ partido.arbitroPrincipal.nombre }}</p>
+    </div>
+    <div>
+      <button (click)="editPartido(partido)">Editar</button>
+      <button (click)="deletePartido(partido.id)">Eliminar</button>
+    </div>
+  </li>
+</ul>
+
+<button (click)="addNewPartido()" class="btn">Nuevo Partido</button>
+
+<div class="form-container" *ngIf="editingPartido || newPartido">
+  <form (submit)="editingPartido ? updatePartido() : createPartido()">
+    <div class="form-group">
+      <label for="fechaHora">Fecha y Hora:</label>
+      <input type="datetime-local" id="fechaHora" name="fechaHora" [(ngModel)]="currentPartido.fechaHora" required>
+    </div>
+    <div class="form-group">
+      <label for="equipoLocal">Equipo Local:</label>
+      <select id="equipoLocal" name="equipoLocal" [(ngModel)]="currentPartido.equipoLocal" required>
+        <option *ngFor="let equipo of equipos" [ngValue]="equipo">{{ equipo.nombre }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="equipoVisitante">Equipo Visitante:</label>
+      <select id="equipoVisitante" name="equipoVisitante" [(ngModel)]="currentPartido.equipoVisitante" required>
+        <option *ngFor="let equipo of equipos" [ngValue]="equipo">{{ equipo.nombre }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="golesLocal">Goles Local:</label>
+      <input type="number" id="golesLocal" name="golesLocal" [(ngModel)]="currentPartido.golesLocal" required>
+    </div>
+    <div class="form-group">
+      <label for="golesVisitante">Goles Visitante:</label>
+      <input type="number" id="golesVisitante" name="golesVisitante" [(ngModel)]="currentPartido.golesVisitante" required>
+    </div>
+    <div class="form-group">
+      <label for="estadio">Estadio:</label>
+      <input type="text" id="estadio" name="estadio" [(ngModel)]="currentPartido.estadio" required>
+    </div>
+    <div class="form-group">
+      <label for="arbitroPrincipal">Árbitro Principal:</label>
+      <input type="text" id="arbitroPrincipal" name="arbitroPrincipal" [(ngModel)]="currentPartido.arbitroPrincipal" required>
+    </div>
+    <div class="buttons-container">
+      <button type="submit" class="btn">{{ editingPartido ? 'Actualizar' : 'Crear' }}</button>
+      <button type="button" class="btn" (click)="cancel()">Cancelar</button>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>

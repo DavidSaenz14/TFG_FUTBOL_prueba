@@ -1,0 +1,224 @@
+<!-- Listing Grid Section -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+      background-color: #f4f4f9;
+    }
+
+    .navbar {
+      background-color: #0056b3;
+    }
+
+    .navbar-brand {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #ffffff !important;
+    }
+
+    .navbar-nav .nav-link {
+      font-size: 1.1rem;
+      color: #ffffff !important;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: #ffcc00 !important;
+    }
+
+    .image-container img {
+      width: 100%;
+      height: auto;
+      max-height: 400px;
+      object-fit: cover;
+      margin-bottom: -4px;
+      /* To remove the gap between the image and the navbar */
+    }
+
+    .navbar-second {
+      background-color: #003366;
+      justify-content: center;
+      padding: 0;
+    }
+
+    .navbar-second .navbar-nav {
+      margin: 0 auto;
+    }
+
+    .navbar-second .nav-link {
+      color: #ffffff !important;
+      font-weight: bold;
+    }
+
+    .navbar-second .nav-link:hover {
+      color: #ffcc00 !important;
+    }
+
+    .footer {
+      background-color: #0056b3;
+      color: white;
+      padding: 1rem 0;
+      text-align: center;
+      margin-top: auto;
+    }
+
+    .footer a {
+      color: #ffcc00;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    .modal-header {
+      background-color: #003366;
+      color: white;
+    }
+
+    .btn-primary {
+      background-color: #0056b3;
+      border-color: #0056b3;
+    }
+
+    .btn-primary:hover {
+      background-color: #004494;
+      border-color: #004494;
+    }
+
+    .listing-grid {
+      padding: 2rem 1rem;
+      background-color: #ffffff;
+    }
+
+    .listing-grid .card {
+      border: none;
+      transition: transform 0.2s;
+    }
+
+    .listing-grid .card:hover {
+      transform: scale(1.05);
+    }
+
+    .listing-grid .card-body {
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .listing-grid .card-title {
+      color: #0056b3;
+      font-weight: bold;
+    }
+
+    .listing-grid .card-text {
+      color: #333333;
+    }
+  </style>
+<div class="container-fluid listing-grid">
+    <div class="row">
+      <div class="col-md-3">
+        <a routerLink="/home">
+          <div class="card">
+            <img
+              src="https://www.diariodesevilla.es/2023/09/27/de_compras/mejores-balones-futbol_1833726684_193418830_1200x675.jpg"
+              class="card-img-top" alt="Inicio">
+            <div class="card-body">
+              <h5 class="card-title">Inicio</h5>
+              <p class="card-text">Explora las últimas noticias y novedades.</p>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-3">
+        <a routerLink="/equipos">
+          <div class="card">
+            <img src="https://media.revistagq.com/photos/5ca5f23827f264ee357c9875/16:9/w_1280,c_limit/escudos_6173.jpg"
+              class="card-img-top" alt="Equipos">
+            <div class="card-body">
+              <h5 class="card-title">Equipos</h5>
+              <p class="card-text">Información sobre todos los equipos.</p>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-3">
+        <a routerLink="/jugadores">
+          <div class="card">
+            <img
+              src="https://phantom-marca.unidadeditorial.es/100687bb841ed0a7a0539039d91b0638/resize/640/assets/multimedia/imagenes/2024/03/25/17113561075104.jpg"
+              class="card-img-top" alt="Jugadores">
+            <div class="card-body">
+              <h5 class="card-title">Jugadores</h5>
+              <p class="card-text">Conoce a los jugadores estrella.</p>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-3">
+        <a routerLink="/clasificacion">
+          <div class="card">
+            <img
+              src="https://img.freepik.com/vector-premium/diseno-infografia-grafico-posicion-futbol-degradado_23-2149555319.jpg"
+              class="card-img-top" alt="Clasificacion">
+            <div class="card-body">
+              <h5 class="card-title">Clasificacion</h5>
+              <p class="card-text">Las clasificaciones de los partidos.</p>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-3">
+        <a routerLink="/partidos">
+          <div class="card">
+            <img
+              src="https://phantom-marca.unidadeditorial.es/b6fbdb3ba848b4add4d39301d30b189e/resize/828/f/jpg/assets/multimedia/imagenes/2024/04/16/17132563414822.jpg"
+              class="card-img-top" alt="Partidos">
+            <div class="card-body">
+              <h5 class="card-title">Partidos</h5>
+              <p class="card-text">Calendario y resultados de los partidos.</p>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-3">
+        <a routerLink="/arbitros">
+          <div class="card">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/VAR_System_Logo.svg/2560px-VAR_System_Logo.svg.png"
+              class="card-img-top" alt="Árbitros">
+            <div class="card-body">
+              <h5 class="card-title">Árbitros</h5>
+              <p class="card-text">Información sobre los árbitros.</p>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-3">
+        <a routerLink="/estadios">
+          <div class="card">
+            <img
+              src="https://www.dicaseducacaofisica.info/wp-content/uploads/2023/04/maiores-estadios-futebol-mundo.webp"
+              class="card-img-top" alt="Estadios">
+            <div class="card-body">
+              <h5 class="card-title">Estadios</h5>
+              <p class="card-text">Detalles de los estadios.</p>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-3">
+        <a routerLink="/competiciones">
+          <div class="card">
+            <img src="https://e00-marca.uecdn.es/assets/multimedia/imagenes/2019/04/25/15562023610886.jpg"
+              class="card-img-top" alt="Competiciones">
+            <div class="card-body">
+              <h5 class="card-title">Competiciones</h5>
+              <p class="card-text">Información sobre las competiciones.</p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>

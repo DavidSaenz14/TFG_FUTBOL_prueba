@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jugadores</title>
+  <style>
+    /* General styles for the page */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #e3f2fd;
+      margin: 0;
+      padding: 20px;
+    }
+
+    /* Styles for the jugadores section */
+    h2 {
+      color: #1976d2;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 2em;
+    }
+
+    .jugadores-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .jugador-item {
+      background-color: #ffffff;
+      border: 2px solid #1976d2;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .jugador-item:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .jugador-info {
+      flex: 1;
+      text-align: left;
+    }
+
+    .jugador-nombre {
+      font-size: 1.8em;
+      color: #1976d2;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .jugador-info p {
+      margin: 8px 0;
+      font-size: 1em;
+    }
+
+    .jugador-info p strong {
+      color: #1976d2;
+    }
+
+    .form-container {
+      max-width: 400px;
+      margin: 20px auto;
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    .buttons-container {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .btn {
+      background-color: #1976d2;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 8px 16px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+
+    .btn:hover {
+      background-color: #1565c0;
+    }
+  </style>
+</head>
+<body>
+  <h2>Jugadores</h2>
+  <div class="jugadores-list">
+    <div *ngFor="let jugador of jugadores" class="jugador-item">
+      <div class="jugador-info" *ngIf="!jugador.editing">
+        <h3 class="jugador-nombre">{{ jugador.nombre }}</h3>
+        <p><strong>Edad:</strong> {{ jugador.edad }}</p>
+        <p><strong>Posición:</strong> {{ jugador.posicion }}</p>
+        <p><strong>Nacionalidad:</strong> {{ jugador.nacionalidad }}</p>
+        <p><strong>Altura:</strong> {{ jugador.altura }} cm</p>
+        <p><strong>Peso:</strong> {{ jugador.peso }} kg</p>
+        <button (click)="jugador.editing = true" class="btn">Editar</button>
+        <button (click)="deleteJugador(jugador.id)" class="btn">Eliminar</button>
+      </div>
+      <div *ngIf="jugador.editing">
+        <form (ngSubmit)="updateJugador(jugador)">
+          <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" [(ngModel)]="jugador.nombre" required>
+          </div>
+          <div class="form-group">
+            <label for="edad">Edad:</label>
+            <input type="number" id="edad" name="edad" [(ngModel)]="jugador.edad" required>
+          </div>
+          <div class="form-group">
+            <label for="posicion">Posición:</label>
+            <input type="text" id="posicion" name="posicion" [(ngModel)]="jugador.posicion" required>
+          </div>
+          <div class="form-group">
+            <label for="nacionalidad">Nacionalidad:</label>
+            <input type="text" id="nacionalidad" name="nacionalidad" [(ngModel)]="jugador.nacionalidad" required>
+          </div>
+          <div class="form-group">
+            <label for="altura">Altura (cm):</label>
+            <input type="number" id="altura" name="altura" [(ngModel)]="jugador.altura" required>
+          </div>
+          <div class="form-group">
+            <label for="peso">Peso (kg):</label>
+            <input type="number" id="peso" name="peso" [(ngModel)]="jugador.peso" required>
+          </div>
+          <div class="buttons-container">
+            <button type="submit" class="btn">Actualizar</button>
+            <button type="button" class="btn" (click)="jugador.editing = false">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- Formulario para crear un nuevo jugador -->
+<div class="form-container">
+    <h2>Añadir Nuevo Jugador</h2>
+    <form (submit)="createJugador()">
+      <div class="form-group">
+        <label for="nuevo-nombre">Nombre:</label>
+        <input type="text" id="nuevo-nombre" name="nuevo-nombre" [(ngModel)]="newJugador.nombre" required>
+      </div>
+      <div class="form-group">
+        <label for="nueva-edad">Edad:</label>
+        <input type="number" id="nueva-edad" name="nueva-edad" [(ngModel)]="newJugador.edad" required>
+      </div>
+      <div class="form-group">
+        <label for="nueva-posicion">Posición:</label>
+        <input type="text" id="nueva-posicion" name="nueva-posicion" [(ngModel)]="newJugador.posicion" required>
+      </div>
+      <div class="form-group">
+        <label for="nueva-nacionalidad">Nacionalidad:</label>
+        <input type="text" id="nueva-nacionalidad" name="nueva-nacionalidad" [(ngModel)]="newJugador.nacionalidad" required>
+      </div>
+      <div class="form-group">
+        <label for="nueva-altura">Altura (cm):</label>
+        <input type="number" id="nueva-altura" name="nueva-altura" [(ngModel)]="newJugador.altura" required>
+      </div>
+      <div class="form-group">
+        <label for="nuevo-peso">Peso (kg):</label>
+        <input type="number" id="nuevo-peso" name="nuevo-peso" [(ngModel)]="newJugador.peso" required>
+      </div>
+      <div class="buttons-container">
+        <button type="submit" class="btn">Añadir Jugador</button>
+      </div>
+    </form>
+  </div>
+  
+</body>
+</html>

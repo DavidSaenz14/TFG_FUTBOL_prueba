@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Competiciones</title>
+  <style>
+    /* General styles for the page */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #e3f2fd; /* Azul claro */
+      margin: 0;
+      padding: 20px;
+    }
+
+    /* Styles for the competiciones section */
+    h2 {
+      color: #1565c0; /* Azul oscuro */
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 2em;
+    }
+
+    .competiciones-list {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .competicion-item {
+      background-color: #bbdefb; /* Azul claro */
+      border: 2px solid #1565c0; /* Azul oscuro */
+      border-radius: 10px;
+      margin-bottom: 20px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .competicion-item:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .competicion-info {
+      text-align: left;
+    }
+
+    .competicion-nombre {
+      font-size: 1.5em;
+      color: #1565c0; /* Azul oscuro */
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .competicion-info p {
+      margin: 8px 0;
+      font-size: 1em;
+    }
+
+    .competicion-info p strong {
+      color: #1976d2; /* Azul más claro */
+    }
+  </style>
+</head>
+<body>
+  <h2>Competiciones</h2>
+  <ul class="competiciones-list">
+    <li *ngFor="let competicion of competiciones" class="competicion-item">
+      <div class="competicion-info">
+        <h3 class="competicion-nombre">{{ competicion.nombre }}</h3>
+        <p><strong>Tipo:</strong> {{ competicion.tipo }}</p>
+        <p><strong>País:</strong> {{ competicion.pais }}</p>
+        <p><strong>Temporada:</strong> {{ competicion.temporada }}</p>
+      </div>
+    </li>
+  </ul>
+</body>
+</html>
