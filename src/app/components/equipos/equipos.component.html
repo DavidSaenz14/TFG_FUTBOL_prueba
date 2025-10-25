@@ -1,177 +1,257 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Equipos</title>
   <style>
-    /* Estilos generales para la página */
     body {
-      font-family: 'Arial', sans-serif;
-      background-color: #e3f2fd;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #e3f2fd, #f0f4ff);
       margin: 0;
-      padding: 20px;
+      padding: 40px 20px;
+      color: #333;
     }
 
-    /* Estilos para la sección de equipos */
+    /* Título principal */
     h2 {
-      color: #1976d2;
+      color: #0d47a1;
       text-align: center;
-      margin-bottom: 20px;
-      font-size: 2em;
+      margin-bottom: 30px;
+      font-size: 2.5em;
+      font-weight: 600;
     }
 
+    /* Lista de equipos en tarjeta */
     .equipos-list {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
     }
 
+    /* Tarjeta de equipo */
     .equipo-item {
       background-color: #ffffff;
-      border: 2px solid #1976d2;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1px solid #bbdefb;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
       display: flex;
       flex-direction: column;
     }
 
     .equipo-item:hover {
-      transform: scale(1.03);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      transform: translateY(-4px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
     }
 
+    /* Info del equipo */
     .equipo-info {
       flex: 1;
       text-align: left;
     }
 
     .equipo-nombre {
-      font-size: 1.8em;
-      color: #1976d2;
+      font-size: 1.6em;
+      color: #1565c0;
       margin-top: 0;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .equipo-info p {
-      margin: 8px 0;
+      margin: 6px 0;
       font-size: 1em;
+      line-height: 1.4;
     }
 
     .equipo-info p strong {
-      color: #1976d2;
+      color: #0d47a1;
+    }
+
+    /* Botones de acción */
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .btn {
+      background-color: #1976d2;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 18px;
+      cursor: pointer;
+      font-size: 0.95em;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn:hover {
+      background-color: #0d47a1;
+      transform: scale(1.03);
+    }
+
+    /* Botón de eliminar en rojo */
+    .btn-cancel {
+      background-color: #e53935;
+    }
+
+    .btn-cancel:hover {
+      background-color: #b71c1c;
+    }
+
+    /* Formulario */
+    .form-container {
+      max-width: 500px;
+      margin: 40px auto 20px;
+      background-color: #ffffff;
+      padding: 30px 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
     }
 
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     label {
       display: block;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #0d47a1;
     }
 
     input {
       width: 100%;
-      padding: 10px;
+      padding: 10px 12px;
       border: 1px solid #ccc;
-      border-radius: 4px;
+      border-radius: 6px;
       box-sizing: border-box;
+      font-size: 1em;
     }
 
     .buttons-container {
       display: flex;
       justify-content: space-between;
+      margin-top: 20px;
     }
 
-    .btn {
-      background-color: #1976d2;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      padding: 8px 16px;
-      cursor: pointer;
-      margin-right: 10px;
-    }
+    @media (max-width: 480px) {
+      .buttons-container {
+        flex-direction: column;
+        gap: 10px;
+      }
 
-    .btn:hover {
-      background-color: #1565c0;
+      .action-buttons {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
 <body>
   <h2>Equipos</h2>
+
+  <!-- Botón para desplegar/ocultar el formulario solo para admin -->
+  <div class="form-container">
+    <button *ngIf="isAdmin" class="btn" (click)="mostrarFormulario = !mostrarFormulario">
+      {{ mostrarFormulario ? 'Ocultar Formulario' : 'Añadir Nuevo Equipo' }}
+    </button>
+
+    <!-- Formulario para crear un nuevo equipo (solo admin) -->
+    <div *ngIf="mostrarFormulario && isAdmin">
+      <h3>Nuevo Equipo</h3>
+      <form (submit)="createEquipo()">
+        <div class="form-group">
+          <label for="nuevo-nombre">Nombre:</label>
+          <input type="text" id="nuevo-nombre" name="nuevo-nombre" [(ngModel)]="newEquipo.nombre" required>
+        </div>
+        <div class="form-group">
+          <label for="nueva-liga">Liga:</label>
+          <input type="text" id="nueva-liga" name="nueva-liga" [(ngModel)]="newEquipo.liga" required>
+        </div>
+        <div class="form-group">
+          <label for="nuevo-entrenador">Entrenador:</label>
+          <input type="text" id="nuevo-entrenador" name="nuevo-entrenador" [(ngModel)]="newEquipo.entrenador" required>
+        </div>
+        <div class="form-group">
+          <label for="nuevo-fundacionYear">Año de fundación:</label>
+          <input type="number" id="nuevo-fundacionYear" name="nuevo-fundacionYear" [(ngModel)]="newEquipo.fundacionYear" required>
+        </div>
+        <div class="form-group">
+          <label for="nuevo-estadio">Estadio:</label>
+          <input type="text" id="nuevo-estadio" name="nuevo-estadio" [(ngModel)]="newEquipo.estadio" required>
+        </div>
+
+        <!-- Selección de competición -->
+        <div class="form-group">
+          <label for="nueva-competicion">Competición:</label>
+          <select id="nueva-competicion" name="nueva-competicion" [(ngModel)]="newEquipo.competicionId" required>
+            <option *ngFor="let comp of competiciones" [ngValue]="comp.id">{{ comp.nombre }}</option>
+          </select>
+        </div>
+
+        <div class="buttons-container">
+          <button type="submit" class="btn">Añadir Equipo</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Lista de equipos -->
   <div class="equipos-list">
     <div *ngFor="let equipo of equipos" class="equipo-item">
       <div class="equipo-info" *ngIf="!equipo.editing">
         <h3 class="equipo-nombre">{{ equipo.nombre }}</h3>
-        <p><strong>Liga:</strong> {{ equipo.liga }}</p>
         <p><strong>Entrenador:</strong> {{ equipo.entrenador }}</p>
         <p><strong>Fundación:</strong> {{ equipo.fundacionYear }}</p>
         <p><strong>Estadio:</strong> {{ equipo.estadio }}</p>
-        <button (click)="equipo.editing = true" class="btn">Editar</button>
-        <button (click)="deleteEquipo(equipo.id)" class="btn">Eliminar</button>
+        <p><strong>Competición:</strong> {{ equipo.nombreCompeticion }}</p>
+
+        <!-- Botones admin -->
+        <div class="action-buttons" *ngIf="isAdmin">
+          <button (click)="equipo.editing = true" class="btn">Editar</button>
+          <button (click)="deleteEquipo(equipo.id)" class="btn btn-cancel">Eliminar</button>
+        </div>
       </div>
+
+      <!-- Formulario edición -->
       <div *ngIf="equipo.editing">
         <form (ngSubmit)="updateEquipo(equipo)">
           <div class="form-group">
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" [(ngModel)]="equipo.nombre" required>
+            <label [for]="'nombre-' + equipo.id">Nombre:</label>
+            <input type="text" [id]="'nombre-' + equipo.id" [name]="'nombre-' + equipo.id" [(ngModel)]="equipo.nombre" required>
           </div>
           <div class="form-group">
-            <label for="liga">Liga:</label>
-            <input type="text" id="liga" name="liga" [(ngModel)]="equipo.liga" required>
+            <label [for]="'entrenador-' + equipo.id">Entrenador:</label>
+            <input type="text" [id]="'entrenador-' + equipo.id" [name]="'entrenador-' + equipo.id" [(ngModel)]="equipo.entrenador" required>
           </div>
           <div class="form-group">
-            <label for="entrenador">Entrenador:</label>
-            <input type="text" id="entrenador" name="entrenador" [(ngModel)]="equipo.entrenador" required>
+            <label [for]="'fundacionYear-' + equipo.id">Año de fundación:</label>
+            <input type="number" [id]="'fundacionYear-' + equipo.id" [name]="'fundacionYear-' + equipo.id" [(ngModel)]="equipo.fundacionYear" required>
           </div>
           <div class="form-group">
-            <label for="fundacionYear">Año de fundación:</label>
-            <input type="number" id="fundacionYear" name="fundacionYear" [(ngModel)]="equipo.fundacionYear" required>
+            <label [for]="'estadio-' + equipo.id">Estadio:</label>
+            <input type="text" [id]="'estadio-' + equipo.id" [name]="'estadio-' + equipo.id" [(ngModel)]="equipo.estadio" required>
           </div>
+
+          <!-- Selección de competición -->
           <div class="form-group">
-            <label for="estadio">Estadio:</label>
-            <input type="text" id="estadio" name="estadio" [(ngModel)]="equipo.estadio" required>
+            <label [for]="'competicion-' + equipo.id">Competición:</label>
+            <select [id]="'competicion-' + equipo.id" [name]="'competicion-' + equipo.id" [(ngModel)]="equipo.competicionId" required>
+              <option *ngFor="let comp of competiciones" [ngValue]="comp.id">{{ comp.nombre }}</option>
+            </select>
           </div>
+
           <div class="buttons-container">
             <button type="submit" class="btn">Actualizar</button>
-            <button type="button" class="btn" (click)="equipo.editing = false">Cancelar</button>
+            <button type="button" class="btn btn-cancel" (click)="equipo.editing = false">Cancelar</button>
           </div>
         </form>
       </div>
     </div>
   </div>
-  <!-- Formulario para crear un nuevo equipo -->
-  <div class="form-container">
-    <h2>Añadir Nuevo Equipo</h2>
-    <form (submit)="createEquipo()">
-      <div class="form-group">
-        <label for="nuevo-nombre">Nombre:</label>
-        <input type="text" id="nuevo-nombre" name="nuevo-nombre" [(ngModel)]="newEquipo.nombre" required>
-      </div>
-      <div class="form-group">
-        <label for="nueva-liga">Liga:</label>
-        <input type="text" id="nueva-liga" name="nueva-liga" [(ngModel)]="newEquipo.liga" required>
-      </div>
-      <div class="form-group">
-        <label for="nuevo-entrenador">Entrenador:</label>
-        <input type="text" id="nuevo-entrenador" name="nuevo-entrenador" [(ngModel)]="newEquipo.entrenador" required>
-      </div>
-      <div class="form-group">
-        <label for="nuevo-fundacionYear">Año de fundación:</label>
-        <input type="number" id="nuevo-fundacionYear" name="nuevo-fundacionYear" [(ngModel)]="newEquipo.fundacionYear" required>
-      </div>
-      <div class="form-group">
-        <label for="nuevo-estadio">Estadio:</label>
-        <input type="text" id="nuevo-estadio" name="nuevo-estadio" [(ngModel)]="newEquipo.estadio" required>
-      </div>
-      <div class="buttons-container">
-        <button type="submit" class="btn">Añadir Equipo</button>
-      </div>
-    </form>
-  </div>
 </body>
+
+
 </html>

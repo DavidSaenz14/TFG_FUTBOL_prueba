@@ -1,6 +1,9 @@
 <div class="unauthorized">
-    <h1>Access Denied</h1>
-    <p>You do not have permission to view this page.</p>
-    <a routerLink="/login">Go to Login</a>
-  </div>
-  
+  <h1>Access Denied</h1>
+  <p>You do not have permission to view this page.</p>
+  <a routerLink="/login">Go to Login</a><br/>
+  <!-- Cambié href por button para evitar navegación por defecto -->
+  <button (click)="logout()" style="background:none; border:none; padding:0; color:blue; text-decoration:underline; cursor:pointer;">
+    Logout
+  </button>
+</div>

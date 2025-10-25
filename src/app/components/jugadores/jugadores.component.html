@@ -5,113 +5,207 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jugadores</title>
   <style>
-    /* General styles for the page */
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #e3f2fd;
-      margin: 0;
-      padding: 20px;
-    }
+  body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #e3f2fd, #f0f4ff);
+  margin: 0;
+  padding: 40px 20px;
+  color: #333;
+}
 
-    /* Styles for the jugadores section */
-    h2 {
-      color: #1976d2;
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 2em;
-    }
+/* Título principal */
+h2 {
+  color: #0d47a1;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2.5em;
+  font-weight: 600;
+}
 
-    .jugadores-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
-    }
+/* Lista de jugadores en tarjeta */
+.jugadores-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
 
-    .jugador-item {
-      background-color: #ffffff;
-      border: 2px solid #1976d2;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s, box-shadow 0.2s;
-      display: flex;
-      flex-direction: column;
-    }
+/* Tarjeta de jugador */
+.jugador-item {
+  background-color: #ffffff;
+  border: 1px solid #bbdefb;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
 
-    .jugador-item:hover {
-      transform: scale(1.03);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    }
+.jugador-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
 
-    .jugador-info {
-      flex: 1;
-      text-align: left;
-    }
+/* Info del jugador */
+.jugador-info {
+  flex: 1;
+  text-align: left;
+}
 
-    .jugador-nombre {
-      font-size: 1.8em;
-      color: #1976d2;
-      margin-top: 0;
-      margin-bottom: 10px;
-    }
+.jugador-nombre {
+  font-size: 1.6em;
+  color: #1565c0;
+  margin-top: 0;
+  margin-bottom: 12px;
+}
 
-    .jugador-info p {
-      margin: 8px 0;
-      font-size: 1em;
-    }
+.jugador-info p {
+  margin: 6px 0;
+  font-size: 1em;
+  line-height: 1.4;
+}
 
-    .jugador-info p strong {
-      color: #1976d2;
-    }
+.jugador-info p strong {
+  color: #0d47a1;
+}
 
-    .form-container {
-      max-width: 400px;
-      margin: 20px auto;
-      background-color: #f9f9f9;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+/* Botones de acción */
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
 
-    .form-group {
-      margin-bottom: 20px;
-    }
+.btn {
+  background-color: #1976d2;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 18px;
+  cursor: pointer;
+  font-size: 0.95em;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
 
-    label {
-      display: block;
-      margin-bottom: 5px;
-    }
+.btn:hover {
+  background-color: #0d47a1;
+  transform: scale(1.03);
+}
 
-    input {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
+/* Botón de eliminar en rojo */
+.btn-cancel {
+  background-color: #e53935;
+}
 
-    .buttons-container {
-      display: flex;
-      justify-content: space-between;
-    }
+.btn-cancel:hover {
+  background-color: #b71c1c;
+}
 
-    .btn {
-      background-color: #1976d2;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      padding: 8px 16px;
-      cursor: pointer;
-      margin-right: 10px;
-    }
+/* Formulario */
+.form-container {
+  max-width: 500px;
+  margin: 40px auto 20px;
+  background-color: #ffffff;
+  padding: 30px 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
 
-    .btn:hover {
-      background-color: #1565c0;
-    }
+.form-group {
+  margin-bottom: 18px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #0d47a1;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 1em;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+@media (max-width: 480px) {
+  .buttons-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+}
   </style>
+  
 </head>
 <body>
   <h2>Jugadores</h2>
+
+  <!-- Botón para desplegar/ocultar el formulario solo para admin -->
+  <div class="form-container">
+    <button *ngIf="isAdmin" class="btn" (click)="mostrarFormulario = !mostrarFormulario">
+      {{ mostrarFormulario ? 'Ocultar Formulario' : 'Añadir Nuevo Jugador' }}
+    </button>
+
+    <!-- Formulario para crear un nuevo jugador (solo admin) -->
+    <div *ngIf="mostrarFormulario && isAdmin">
+      <h3>Nuevo Jugador</h3>
+      <form (submit)="createJugador()">
+        <div class="form-group">
+          <label for="nuevo-nombre">Nombre:</label>
+          <input type="text" id="nuevo-nombre" name="nuevo-nombre" [(ngModel)]="newJugador.nombre" required>
+        </div>
+        <div class="form-group">
+          <label for="nueva-edad">Edad:</label>
+          <input type="number" id="nueva-edad" name="nueva-edad" [(ngModel)]="newJugador.edad" required>
+        </div>
+        <div class="form-group">
+          <label for="nueva-posicion">Posición:</label>
+          <input type="text" id="nueva-posicion" name="nueva-posicion" [(ngModel)]="newJugador.posicion" required>
+        </div>
+        <div class="form-group">
+          <label for="nueva-nacionalidad">Nacionalidad:</label>
+          <input type="text" id="nueva-nacionalidad" name="nueva-nacionalidad" [(ngModel)]="newJugador.nacionalidad" required>
+        </div>
+        <div class="form-group">
+          <label for="nueva-altura">Altura (cm):</label>
+          <input type="number" id="nueva-altura" name="nueva-altura" [(ngModel)]="newJugador.altura" required>
+        </div>
+        <div class="form-group">
+          <label for="nuevo-peso">Peso (kg):</label>
+          <input type="number" id="nuevo-peso" name="nuevo-peso" [(ngModel)]="newJugador.peso" required>
+        </div>
+
+        <!-- Selección de equipo -->
+        <div class="form-group">
+          <label for="nuevo-equipo">Equipo:</label>
+          <select id="nuevo-equipo" name="nuevo-equipo" [(ngModel)]="newJugador.equipoId" 
+                  (ngModelChange)="newJugador.nombreEquipo = getNombreEquipoById(newJugador.equipoId)">
+            <option [ngValue]="null">Sin equipo</option>
+            <option *ngFor="let equipo of equipos" [ngValue]="equipo.id">{{ equipo.nombre }}</option>
+          </select>
+        </div>
+
+        <div class="buttons-container">
+          <button type="submit" class="btn">Añadir Jugador</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Lista de jugadores -->
   <div class="jugadores-list">
     <div *ngFor="let jugador of jugadores" class="jugador-item">
       <div class="jugador-info" *ngIf="!jugador.editing">
@@ -121,9 +215,16 @@
         <p><strong>Nacionalidad:</strong> {{ jugador.nacionalidad }}</p>
         <p><strong>Altura:</strong> {{ jugador.altura }} cm</p>
         <p><strong>Peso:</strong> {{ jugador.peso }} kg</p>
-        <button (click)="jugador.editing = true" class="btn">Editar</button>
-        <button (click)="deleteJugador(jugador.id)" class="btn">Eliminar</button>
+        <p><strong>Equipo:</strong> {{ jugador.nombreEquipo || 'Sin equipo' }}</p>
+
+        <!-- Botones admin -->
+        <div class="action-buttons" *ngIf="isAdmin">
+          <button (click)="jugador.editing = true" class="btn">Editar</button>
+          <button (click)="deleteJugador(jugador.id)" class="btn btn-cancel">Eliminar</button>
+        </div>
       </div>
+
+      <!-- Formulario edición -->
       <div *ngIf="jugador.editing">
         <form (ngSubmit)="updateJugador(jugador)">
           <div class="form-group">
@@ -150,47 +251,25 @@
             <label for="peso">Peso (kg):</label>
             <input type="number" id="peso" name="peso" [(ngModel)]="jugador.peso" required>
           </div>
+
+          <!-- Selección de equipo -->
+          <div class="form-group">
+            <label for="equipo">Equipo:</label>
+            <select id="equipo" name="equipo" [(ngModel)]="jugador.equipoId" 
+                    (ngModelChange)="jugador.nombreEquipo = getNombreEquipoById(jugador.equipoId)">
+              <option [ngValue]="null">Sin equipo</option>
+              <option *ngFor="let equipo of equipos" [ngValue]="equipo.id">{{ equipo.nombre }}</option>
+            </select>
+          </div>
+
           <div class="buttons-container">
             <button type="submit" class="btn">Actualizar</button>
-            <button type="button" class="btn" (click)="jugador.editing = false">Cancelar</button>
+            <button type="button" class="btn btn-cancel" (click)="jugador.editing = false">Cancelar</button>
           </div>
         </form>
       </div>
     </div>
   </div>
-  <!-- Formulario para crear un nuevo jugador -->
-<div class="form-container">
-    <h2>Añadir Nuevo Jugador</h2>
-    <form (submit)="createJugador()">
-      <div class="form-group">
-        <label for="nuevo-nombre">Nombre:</label>
-        <input type="text" id="nuevo-nombre" name="nuevo-nombre" [(ngModel)]="newJugador.nombre" required>
-      </div>
-      <div class="form-group">
-        <label for="nueva-edad">Edad:</label>
-        <input type="number" id="nueva-edad" name="nueva-edad" [(ngModel)]="newJugador.edad" required>
-      </div>
-      <div class="form-group">
-        <label for="nueva-posicion">Posición:</label>
-        <input type="text" id="nueva-posicion" name="nueva-posicion" [(ngModel)]="newJugador.posicion" required>
-      </div>
-      <div class="form-group">
-        <label for="nueva-nacionalidad">Nacionalidad:</label>
-        <input type="text" id="nueva-nacionalidad" name="nueva-nacionalidad" [(ngModel)]="newJugador.nacionalidad" required>
-      </div>
-      <div class="form-group">
-        <label for="nueva-altura">Altura (cm):</label>
-        <input type="number" id="nueva-altura" name="nueva-altura" [(ngModel)]="newJugador.altura" required>
-      </div>
-      <div class="form-group">
-        <label for="nuevo-peso">Peso (kg):</label>
-        <input type="number" id="nuevo-peso" name="nuevo-peso" [(ngModel)]="newJugador.peso" required>
-      </div>
-      <div class="buttons-container">
-        <button type="submit" class="btn">Añadir Jugador</button>
-      </div>
-    </form>
-  </div>
-  
 </body>
+
 </html>

@@ -5,107 +5,124 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Árbitros</title>
   <style>
-    /* General styles for the page */
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #e3f2fd; /* Azul claro */
-      margin: 0;
-      padding: 20px;
-    }
+  /* General styles for the page */
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #e3f2fd; /* Azul claro */
+    margin: 0;
+    padding: 20px;
+  }
 
-    /* Styles for the árbitros section */
-    h2 {
-      color: #1565c0; /* Azul oscuro */
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 2em;
-    }
+  /* Title styling */
+  h2 {
+    color: #1565c0; /* Azul oscuro */
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
 
-    .arbitros-list {
-      list-style-type: none;
-      padding: 0;
-    }
+  /* Grid layout for árbitros */
+  .arbitros-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 0;
+  }
 
-    .arbitro-item {
-      background-color: #bbdefb; /* Azul claro */
-      border: 2px solid #1565c0; /* Azul oscuro */
-      border-radius: 10px;
-      margin-bottom: 20px;
-      padding: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
+  .arbitro-item {
+    background-color: #ffffff; /* Blanco para contraste */
+    border: 2px solid #1565c0; /* Azul oscuro */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+  }
 
-    .arbitro-item:hover {
-      transform: scale(1.03);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    }
+  .arbitro-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
 
-    .arbitro-info {
-      text-align: left;
-    }
+  .arbitro-info {
+    text-align: left;
+    flex-grow: 1;
+  }
 
-    .arbitro-nombre {
-      font-size: 1.5em;
-      color: #1565c0; /* Azul oscuro */
-      margin-top: 0;
-      margin-bottom: 10px;
-    }
+  .arbitro-nombre {
+    font-size: 1.8em;
+    color: #1565c0;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
 
-    .arbitro-info p {
-      margin: 8px 0;
-      font-size: 1em;
-    }
+  .arbitro-info p {
+    margin: 10px 0;
+    font-size: 1.1em;
+    color: #333;
+  }
 
-    .arbitro-info p strong {
-      color: #1976d2; /* Azul más claro */
-    }
+  .arbitro-info p strong {
+    color: #1976d2;
+  }
 
-    .form-container {
-      max-width: 400px;
-      margin: 20px auto;
-      background-color: #f9f9f9;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+  /* Optional: styling for form if included */
+  .form-container {
+    max-width: 500px;
+    margin: 30px auto;
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  }
 
-    .form-group {
-      margin-bottom: 20px;
-    }
+  .form-group {
+    margin-bottom: 20px;
+  }
 
-    label {
-      display: block;
-      margin-bottom: 5px;
-    }
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #1565c0;
+  }
 
-    input, select {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
+  input, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1em;
+  }
 
-    .buttons-container {
-      display: flex;
-      justify-content: space-between;
-    }
+  .buttons-container {
+    display: flex;
+    justify-content: space-between;
+  }
 
-    .btn {
-      background-color: #1565c0;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      padding: 8px 16px;
-      cursor: pointer;
-      margin-right: 10px;
-    }
+  .btn {
+    background-color: #1565c0;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s;
+  }
 
-    .btn:hover {
-      background-color: #0d47a1;
-    }
-  </style>
+  .btn:hover {
+    background-color: #0d47a1;
+  }
+</style>
+
 </head>
 <body>
   <h2>Árbitros</h2>

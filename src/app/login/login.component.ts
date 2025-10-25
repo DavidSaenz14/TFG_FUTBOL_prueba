@@ -3,10 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-// Define una interfaz para registrationSuccess si conoces su estructura
-interface RegistrationSuccessResponse {
-  message: string;
-  // Añade otros campos según sea necesario
+interface LoginResponse {
+  token: string;
 }
 
 @Component({
@@ -18,7 +16,11 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   returnUrl: string;
   error: string | null = null;
-  registrationSuccess: RegistrationSuccessResponse | null = null; // Mejorar el tipo según sea necesario
+  loginSuccess: string | null = null;
+
+  registrationSuccess: { message: string } | null = null;  // <-- Aquí
+
+  isSubmitting = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,37 +29,65 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder
   ) {
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
+      correoElectronico: ['', [Validators.required, Validators.email]],
+      contraseña: ['', Validators.required]
     });
     this.returnUrl = '/';
   }
 
   ngOnInit() {
-    // Redireccionar al inicio si el usuario ya está autenticado
-    if (this.authService.currentUserValue) {
+    if (this.authService.isAuthenticated()) {
       this.router.navigate(['/']);
     }
 
-    // Obtener URL de retorno de los parámetros de ruta o usar '/' por defecto
+    // Capturar mensaje de éxito de registro (por ejemplo: ?registrationSuccess=Usuario%20creado%20correctamente)
+    const registrationMsg = this.route.snapshot.queryParams['registrationSuccess'];
+    if (registrationMsg) {
+      this.registrationSuccess = { message: registrationMsg };
+    }
+
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   onSubmit() {
     if (this.loginForm.invalid) {
+      this.error = 'Por favor, completa correctamente todos los campos.';
+      this.loginSuccess = null;
       return;
     }
 
-    this.authService.login(this.loginForm.controls['username'].value, this.loginForm.controls['password'].value)
-     .subscribe(
-        (data: RegistrationSuccessResponse) => {
-          this.registrationSuccess = data; // Asignar la respuesta exitosa a registrationSuccess
-          this.router.navigate([this.returnUrl]);
-        },
-        (error: any) => {
-          this.error = error.message; // Mejorar el manejo de errores
-          // Considera mostrar un mensaje de error en la UI aquí
+    this.error = null;
+    this.loginSuccess = null;
+    this.isSubmitting = true;
+
+    const correo = this.loginForm.get('correoElectronico')?.value;
+    const clave = this.loginForm.get('contraseña')?.value;
+
+    this.authService.login(correo, clave).subscribe(
+      (response: LoginResponse) => {
+        this.isSubmitting = false;
+        if (response?.token) {
+          this.authService.setToken(response.token);
+          localStorage.setItem('token', response.token);
+
+          this.loginSuccess = 'Has iniciado sesión correctamente.';
+          this.error = null;
+          this.registrationSuccess = null; // ocultamos mensaje de registro al iniciar sesión
+
+          setTimeout(() => {
+            this.router.navigate([this.returnUrl]);
+          }, 2000);
+        } else {
+          this.error = 'La respuesta del servidor no contiene un token.';
+          this.loginSuccess = null;
         }
-      );
+      },
+      (error) => {
+        this.isSubmitting = false;
+        const mensaje = error?.error?.message || error?.error || 'Ocurrió un error al iniciar sesión.';
+        this.error = mensaje;
+        this.loginSuccess = null;
+      }
+    );
   }
 }

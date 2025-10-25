@@ -9,6 +9,8 @@ import { Observable } from 'rxjs';
 })
 export class ClasificacionComponent implements OnInit {
   clasificacionesEquipos: any[] = [];
+newEquipo: any;
+equipo: any;
 
   constructor(private apiService: ApiService) { }
 

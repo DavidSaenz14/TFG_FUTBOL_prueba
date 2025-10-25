@@ -1,15 +1,34 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from './services/auth.service';  // Ajusta ruta si es necesario
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'TFG_FUTBOL';
+  isLoggedIn = false;
+  private authSubscription?: Subscription;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
+
+  ngOnInit() {
+    this.authSubscription = this.authService.currentUser.subscribe(user => {
+      this.isLoggedIn = !!user;
+    });
+  }
+
+  ngOnDestroy() {
+    this.authSubscription?.unsubscribe();
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
 
   navigateToLogin() {
     this.router.navigate(['/login']);
@@ -39,7 +58,7 @@ export class AppComponent {
     this.router.navigate(['/arbitros']);
   }
 
-  navigateToClasificacion() { // Consistent naming with path
+  navigateToClasificacion() {
     this.router.navigate(['/clasificacion']);
   }
 

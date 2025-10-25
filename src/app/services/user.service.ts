@@ -1,45 +1,47 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { User } from '../models/user.model'; // Asume que tienes un modelo User definido
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://localhost:8080/usuarios'; // Reemplaza con la URL de tu API
+  private apiUrl = 'http://localhost:8080/auth'; // Ahora apunta a /auth
 
   constructor(private http: HttpClient) { }
 
-  getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiUrl}`);
+  // ✅ Verificar si un usuario ya existe
+  checkUserExists(username: string, email: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}/check`, {
+      params: { username, email }
+    });
   }
 
-  getUserById(id: number): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/${id}`);
+  // ✅ Registrar un nuevo usuario
+  registerUser(username: string, email: string, password: string, role: string = 'user'): Observable<any> {
+    const user = {
+      nombre: username,
+      correoElectronico: email,
+      contrasena: password,
+      rol: role
+    };
+    return this.http.post(`${this.apiUrl}/register`, user);
   }
 
-  createUser(user: User): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}`, user);
+  // ✅ Métodos para administradores (opcional)
+  getAllUsers(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/usuarios`);
   }
 
-  updateUser(user: User): Observable<User> {
-    return this.http.put<User>(`${this.apiUrl}/${user.id}`, user);
+  getUserById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/usuarios/${id}`);
+  }
+
+  updateUser(id: number, user: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/usuarios/${id}`, user);
   }
 
   deleteUser(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
-  }
-
-  checkUserExists(username: string, email: string): Observable<boolean> {
-    return this.getAllUsers().pipe(
-      map(users => users.some(user => user.username === username || user.email === email))
-    );
-  }
-
-  registerUser(username: string, email: string, password: string): Observable<any> {
-    const user = { username, email, password, role: 'ROLE_USER' }; // Ajusta según sea necesario
-    return this.createUser(user);
+    return this.http.delete<void>(`${this.apiUrl}/usuarios/${id}`);
   }
 }

@@ -5,72 +5,89 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clasificaciones Equipos</title>
   <style>
-    /* General styles for the page */
     body {
-      font-family: 'Arial', sans-serif;
-      background-color: #e3f2fd; /* Azul claro */
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #e3f2fd, #f0f4ff);
       margin: 0;
-      padding: 20px;
+      padding: 40px 20px;
+      color: #333;
     }
-
-    /* Styles for the clasificacionesEquipos section */
+    
+    /* Título principal */
     h2 {
-      color: #1565c0; /* Azul oscuro */
+      color: #0d47a1;
       text-align: center;
-      margin-bottom: 20px;
-      font-size: 2em;
+      margin-bottom: 30px;
+      font-size: 2.5em;
+      font-weight: 600;
     }
-
-   .clasificacionesEquipos-list {
-      display: flex; /* Utiliza Flexbox para organizar los elementos en filas */
-      justify-content: space-between; /* Espacio uniforme entre los elementos */
-      flex-wrap: wrap; /* Permitir que los elementos se envuelvan a la siguiente línea */
+    
+    /* Contenedor de tarjetas */
+    .clasificacionesEquipos-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px;
+      list-style-type: none; /* Elimina los círculos o marcadores */
+      padding-left: 0; /* Elimina el espaciado extra a la izquierda */
     }
-
-   .clasificacionEquipo-item {
-      background-color: #bbdefb; /* Azul claro */
-      border: 2px solid #1565c0; /* Azul oscuro */
-      border-radius: 10px;
-      margin-bottom: 20px;
-      padding: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s, box-shadow 0.2s;
-      flex: 1 0 30%; /* Ajusta el ancho de cada elemento a 30% del contenedor padre */
-      min-width: 300px; /* Ancho mínimo para dispositivos pequeños */
+    
+    /* Tarjeta individual */
+    .clasificacionEquipo-item {
+      background-color: #ffffff;
+      border: 1px solid #bbdefb;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      flex: 1 1 320px;
+      max-width: 400px;
     }
-
-   .clasificacionEquipo-item:hover {
-      transform: scale(1.03);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    
+    .clasificacionEquipo-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
     }
-
-   .clasificacionEquipo-info {
+    
+    /* Info del equipo */
+    .clasificacionEquipo-info {
       text-align: left;
     }
-
-   .clasificacionEquipo-id {
-      font-size: 1.5em;
-      color: #1565c0; /* Azul oscuro */
+    
+    .clasificacionEquipo-id {
+      font-size: 1.6em;
+      color: #1565c0;
       margin-top: 0;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+      font-weight: 600;
     }
-
-   .clasificacionEquipo-info p {
-      margin: 8px 0;
+    
+    .clasificacionEquipo-info p {
+      margin: 6px 0;
       font-size: 1em;
+      line-height: 1.4;
     }
-
-   .clasificacionEquipo-info p strong {
-      color: #1976d2; /* Azul más claro */
+    
+    .clasificacionEquipo-info p strong {
+      color: #0d47a1;
     }
-  </style>
+    
+    /* Responsive */
+    @media (max-width: 600px) {
+      .clasificacionEquipo-item {
+        flex: 1 1 100%;
+      }
+    }
+    </style>
+    
 </head>
 <body>
   <h2>Clasificaciones Equipos</h2>
   <ul class="clasificacionesEquipos-list">
     <li *ngFor="let clasificacion of clasificacionesEquipos" class="clasificacionEquipo-item">
       <div class="clasificacionEquipo-info">
-        <h3 class="clasificacionEquipo-id">ID Equipo: {{ clasificacion.idEquipo }}</h3>
+        <!-- Cambiamos idEquipo por nombreEquipo -->
+        <h3 class="clasificacionEquipo-id">{{ clasificacion.nombreEquipo }}</h3>
         <p><strong>Posición:</strong> {{ clasificacion.posicion }}</p>
         <p><strong>Puntos:</strong> {{ clasificacion.puntos }}</p>
         <p><strong>Partidos Jugados:</strong> {{ clasificacion.partidosJugados }}</p>
@@ -83,4 +100,5 @@
     </li>
   </ul>
 </body>
+
 </html>

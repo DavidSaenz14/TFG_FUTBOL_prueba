@@ -5,74 +5,119 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Competiciones</title>
   <style>
-    /* General styles for the page */
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #e3f2fd; /* Azul claro */
-      margin: 0;
-      padding: 20px;
-    }
+  /* General styles for the page */
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #e3f2fd; /* Azul claro */
+    margin: 0;
+    padding: 20px;
+  }
 
-    /* Styles for the competiciones section */
-    h2 {
-      color: #1565c0; /* Azul oscuro */
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 2em;
-    }
+  /* Styles for the competiciones section */
+  h2 {
+    color: #1565c0; /* Azul oscuro */
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
 
-    .competiciones-list {
-      list-style-type: none;
-      padding: 0;
-    }
+  .competiciones-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 0;
+    list-style: none;
+  }
 
-    .competicion-item {
-      background-color: #bbdefb; /* Azul claro */
-      border: 2px solid #1565c0; /* Azul oscuro */
-      border-radius: 10px;
-      margin-bottom: 20px;
-      padding: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
+  .competicion-item {
+    background-color: #ffffff; /* Blanco para contraste */
+    border: 2px solid #1565c0; /* Azul oscuro */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+  }
 
-    .competicion-item:hover {
-      transform: scale(1.03);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    }
+  .competicion-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
 
-    .competicion-info {
-      text-align: left;
-    }
+  .competicion-info {
+    text-align: left;
+    flex-grow: 1;
+  }
 
-    .competicion-nombre {
-      font-size: 1.5em;
-      color: #1565c0; /* Azul oscuro */
-      margin-top: 0;
-      margin-bottom: 10px;
-    }
+  .competicion-nombre {
+    font-size: 1.8em;
+    color: #1565c0; /* Azul oscuro */
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
 
-    .competicion-info p {
-      margin: 8px 0;
-      font-size: 1em;
-    }
+  .competicion-info p {
+    margin: 10px 0;
+    font-size: 1.1em;
+    color: #333;
+  }
 
-    .competicion-info p strong {
-      color: #1976d2; /* Azul más claro */
-    }
-  </style>
+  .competicion-info p strong {
+    color: #1976d2; /* Azul más claro */
+  }
+
+  /* Nuevo estilo para el desplegable de equipos */
+  select.equipos-dropdown {
+    width: 100%;
+    padding: 8px 12px;
+    margin-top: 5px;
+    font-size: 1em;
+    border-radius: 6px;
+    border: 1px solid #1565c0;
+    background-color: #f5faff;
+    color: #1565c0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  select.equipos-dropdown:hover {
+    background-color: #e1f0fe;
+    border-color: #1976d2;
+  }
+
+  select.equipos-dropdown:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(21, 101, 192, 0.5);
+    border-color: #1565c0;
+  }
+</style>
+
+  
 </head>
 <body>
   <h2>Competiciones</h2>
-  <ul class="competiciones-list">
-    <li *ngFor="let competicion of competiciones" class="competicion-item">
-      <div class="competicion-info">
-        <h3 class="competicion-nombre">{{ competicion.nombre }}</h3>
-        <p><strong>Tipo:</strong> {{ competicion.tipo }}</p>
-        <p><strong>País:</strong> {{ competicion.pais }}</p>
-        <p><strong>Temporada:</strong> {{ competicion.temporada }}</p>
-      </div>
-    </li>
-  </ul>
+<ul class="competiciones-list">
+  <li *ngFor="let competicion of competiciones" class="competicion-item">
+    <div class="competicion-info">
+      <h3 class="competicion-nombre">{{ competicion.nombre }}</h3>
+      <p><strong>Tipo:</strong> {{ competicion.tipo }}</p>
+      <p><strong>País:</strong> {{ competicion.pais }}</p>
+      <p><strong>Temporada:</strong> {{ competicion.temporada }}</p>
+
+      <!-- Dropdown con los equipos -->
+      <label for="equipos-{{ competicion.id }}"><strong>Equipos:</strong></label>
+      <select id="equipos-{{ competicion.id }}" class="equipos-dropdown">
+        <option *ngFor="let equipo of competicion.nombresEquipos">{{ equipo }}</option>
+      </select>
+    </div>
+  </li>
+</ul>
+
 </body>
+
+
 </html>

@@ -10,31 +10,37 @@ export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const currentUser = this.authService.currentUserValue;
+    if (!this.authService.isAuthenticated()) {
+      this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+      return false;
+    }
 
-    if (currentUser) {
-      // Check if the route is restricted by role(s)
-      let requiredRoles = route.data['roles'];
-      
-      // Convert roles from string to array if they're not already
-      if (!Array.isArray(requiredRoles)) {
-        requiredRoles = [requiredRoles];
-      }
+    const requiredRoles: string[] = route.data['roles'];
+    if (!requiredRoles || requiredRoles.length === 0) return true;
 
-      // Check if the user has one of the required roles
-      const hasRequiredRole = requiredRoles.some((role: any) => currentUser.roles?.includes(role));
+    const userRoles = this.getUserRoles();
 
-      if (!hasRequiredRole) {
-        // Role not authorized, redirect to unauthorized page
-        this.router.navigate(['/unauthorized']);
-        return false;
-      }
-      // Authorized, so return true
+    const normalizedRequiredRoles = requiredRoles.map(role => role.toLowerCase());
+    const hasRequiredRole = userRoles.some(role => normalizedRequiredRoles.includes(role));
+
+    if (hasRequiredRole) {
       return true;
     }
 
-    // Not logged in, redirect to login page
-    this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+    this.router.navigate(['/unauthorized']);
     return false;
+  }
+
+  private getUserRoles(): string[] {
+    const currentUser = this.authService.currentUserValue;
+
+    if (!currentUser) return [];
+
+    const roles = currentUser['roles'] || currentUser['role'] || currentUser['rol'] || [];
+    const rolesArray = Array.isArray(roles) ? roles : [roles];
+
+    return rolesArray
+      .filter(r => typeof r === 'string')
+      .map((role: string) => role.replace(/^ROLE_/, '').toLowerCase());
   }
 }
