@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'https://tfg-futbol-prueba-e2x5.vercel.app/auth'; // Ahora apunta a /auth
+  private apiUrl = 'https://springboot-4-r9wa.onrender.com/auth'; // Ahora apunta a /auth
 
   constructor(private http: HttpClient) { }
 
