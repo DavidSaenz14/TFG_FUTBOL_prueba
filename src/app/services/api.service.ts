@@ -8,7 +8,7 @@ import { catchError } from 'rxjs/operators';
 })
 export class ApiService {
 
-  private apiURL = 'http://localhost:8080';
+  private apiURL = 'https://springboot-4-r9wa.onrender.com';
 
   constructor(private httpClient: HttpClient) {}
 
